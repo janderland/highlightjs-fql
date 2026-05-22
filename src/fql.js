@@ -18,8 +18,15 @@ const OPTIONS_KW  = [
 ];
 const OPTION_VALUES  = ['want_all', 'iterator', 'exact', 'small', 'medium', 'large', 'serial'];
 
-// Options that take a `:value`. Drives BAREOPT (bare `keyword:value` outside [...]).
-const VALUED_OPTIONS = ['width', 'limit', 'mode', 'endian', 'sep'];
+// US-keyboard ASCII punctuation. Used to construct broad terminator regexes
+// (e.g. OPTION.end). Excludes `_` since it's a word character.
+// Pre-escaped for use inside a regex `[...]` char class.
+const SYMBOLS = '`~!@#$%^&*()\\-=+[\\]{}\\\\|;:\'",.<>/?';
+
+// Build a lookahead-end regex: triggers on whitespace, EOL, or any keyboard
+// symbol not matched by `keep`. Used by OPTION/DIRECTORY/VALUE.
+const endAtSymbol = (keep) =>
+  new RegExp('(?=[\\s' + SYMBOLS.replace(keep, '') + ']|$)');
 
 // Composed lists for specific modes.
 const TOP_KEYWORDS = [
@@ -131,20 +138,27 @@ export default function(_hljs) {
     beginKeywords: TOP_KEYWORDS.join(' '),
   };
 
-  const OPTIONS = {
-    scope: 'options',
-    begin: /\[/,
-    end: /]/,
-    keywords: {
-      $$pattern: /[^,:"]+/,
-      keyword: BRACKET_KEYWORDS,
-    },
+  // OPTNAME — recognizes a token as an option-keyword name.
+  const OPTNAME = {
+    scope: 'keyword',
+    beginKeywords: OPTIONS_KW.join(' '),
+  };
+
+  // OPTION — a single option, with or without `:value`. The single entry
+  // point for option syntax everywhere — inside [...], at top level, in
+  // TUPLE, in VALUE. Ends at any keyboard symbol other than `:`, plus
+  // whitespace and EOL.
+  const OPTION = {
+    scope: 'accent',
+    begin: new RegExp('(?=\\b(?:' + OPTIONS_KW.join('|') + ')\\b)'),
+    end: endAtSymbol(/:/g),
     contains: [
+      OPTNAME,
       STRING,
       {
         begin: [
           /:/,
-          /[^,\]"]+/,
+          /[\w.\-]+/,
         ],
         beginScope: {
           1: 'option',
@@ -154,27 +168,18 @@ export default function(_hljs) {
     ],
   };
 
-  // `limit:5`, `mode:exact`, etc. — outside [...].
-  const BAREOPT = {
-    scope: 'accent',
-    begin: [
-      new RegExp('\\b(' + VALUED_OPTIONS.join('|') + ')\\b'),
-      /:/,
-      /[^\s,)\]"]+/,
-    ],
-    beginScope: {
-      1: 'keyword',
-      2: 'option',
-      3: 'number',
+  const OPTIONS = {
+    scope: 'options',
+    begin: /\[/,
+    end: /]/,
+    keywords: {
+      $$pattern: /[^,:"]+/,
+      keyword: BRACKET_KEYWORDS,
     },
-  };
-
-  const INLINEOPT = {
-    scope: 'accent',
-    begin: /(?=\b(width|unsigned)\b)/,
-    end: /(?=\s|$)/,
-    keywords: OPTIONS.keywords,
-    contains: OPTIONS.contains,
+    contains: [
+      OPTION,
+      STRING,
+    ],
   };
 
   const VAR_NAME = {
@@ -237,7 +242,7 @@ export default function(_hljs) {
   const DIRECTORY = {
     scope: 'directory',
     begin: /[/@]/,
-    end: /(?=[\(=\s]|$)/,
+    end: endAtSymbol(/[/@<>.\-"]/g),
     contains: [
       STRING,
       VARIABLE,
@@ -255,7 +260,7 @@ export default function(_hljs) {
       'self',
       STRING,
       VARIABLE,
-      BAREOPT,
+      OPTION,
       REFERENCE,
       TYPE_CAST,
       MAYBEMORE,
@@ -271,12 +276,12 @@ export default function(_hljs) {
   const VALUE = {
     scope: 'value',
     begin: /=/,
-    end: /[\s%]/,
+    end: endAtSymbol(/[(<\[:!#\-"]/g),
     contains: [
       TUPLE,
       STRING,
       VARIABLE,
-      BAREOPT,
+      OPTION,
       REFERENCE,
       TYPE_CAST,
       KEYWORD,
@@ -309,11 +314,10 @@ export default function(_hljs) {
       TUPLE,
       VALUE,
       VARIABLE,
-      BAREOPT,
+      OPTION,
       REFERENCE,
       TYPE_CAST,
       MAYBEMORE,
-      INLINEOPT,
       KEYWORD,
       STRING,
       UUID,
