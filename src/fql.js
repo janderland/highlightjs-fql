@@ -5,16 +5,18 @@ Website: https://github.com/janderland/fql
 Category: database
 */
 
-// Keyword categories — single source of truth.
+// Keyword categories
 const LITERALS    = ['true', 'false', 'nil', 'inf', '-inf', 'nan', '-nan'];
 const VERBS       = ['clear', 'remove'];
 const TYPES       = ['any', 'int', 'bool', 'num', 'bint', 'str', 'bytes', 'uuid', 'tup', 'vstamp'];
-const INT_TYPES   = ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'];
-const FLOAT_TYPES = ['f32', 'f64', 'f80'];
+const TYPES_INT   = ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'];
+const TYPES_FLOAT = ['f32', 'f64', 'f80'];
 const AGGREGATES  = ['append', 'sum', 'avg', 'min', 'max', 'count'];
 const OPTIONS_KW  = [
-  'be', 'bigendian', 'endian', 'raw', 'reverse', 'unsigned',
-  'width', 'sep', 'limit', 'mode', 'snapshot', 'strict',
+  'be', 'bigendian', 'unsigned', 'width', 'raw',
+  'rev', 'reverse', 'snap', 'snapshot', 'limit', 'mode',
+  'sep', 'separator',
+  'strict',
 ];
 const OPTION_VALUES  = ['want_all', 'iterator', 'exact', 'small', 'medium', 'large', 'serial'];
 
@@ -32,13 +34,13 @@ const endAtSymbol = (keep) =>
 // 'accent' and 'number'. `firstIsAccent` picks the starting phase.
 //
 // Example: NUMBER is built with firstIsAccent=true and the parts below.
-// For input `-42`:
+// For input `-42.3e7`:
 //   parts[0] /-?/   capture 1  accent   matches '-'
 //   parts[1] /\d+/  capture 2  number   matches '42'
-//   parts[2] /\.?/  capture 3  accent   matches ''
-//   parts[3] /\d*/  capture 4  number   matches ''
-//   parts[4] /e?/   capture 5  accent   matches ''
-//   parts[5] /\d*/  capture 6  number   matches ''
+//   parts[2] /\.?/  capture 3  accent   matches '.'
+//   parts[3] /\d*/  capture 4  number   matches '3'
+//   parts[4] /e?/   capture 5  accent   matches 'e'
+//   parts[5] /\d*/  capture 6  number   matches '7'
 const numericMode = (parts, firstIsAccent) => ({
   begin: parts,
   beginScope: Object.fromEntries(
@@ -54,11 +56,11 @@ const keywordMode = (words) => ({
 
 // Composed lists for specific modes.
 const TOP_KEYWORDS = [
-  ...LITERALS, ...VERBS, ...TYPES, ...INT_TYPES, ...FLOAT_TYPES,
+  ...LITERALS, ...VERBS, ...TYPES, ...TYPES_INT, ...TYPES_FLOAT,
   ...AGGREGATES, ...OPTIONS_KW, ...OPTION_VALUES,
 ];
 const VARIABLE_KEYWORDS = [...LITERALS, ...TYPES, ...AGGREGATES];
-const BRACKET_KEYWORDS  = [...OPTIONS_KW, ...INT_TYPES, ...FLOAT_TYPES];
+const BRACKET_KEYWORDS  = [...OPTIONS_KW, ...TYPES_INT, ...TYPES_FLOAT];
 
 export default function(_hljs) {
   const ESCAPE = {
