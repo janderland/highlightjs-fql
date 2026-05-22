@@ -1,0 +1,42 @@
+{
+  "name": "highlightjs-fql",
+  "version": "0.1.0",
+  "description": "FQL (FoundationDB Query Language) syntax highlighting for highlight.js",
+  "type": "module",
+  "main": "src/fql.js",
+  "exports": {
+    ".": "./src/fql.js",
+    "./register": "./src/register.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "test": "mocha"
+  },
+  "keywords": [
+    "fql",
+    "foundationdb",
+    "highlight.js",
+    "highlightjs",
+    "syntax",
+    "highlighting"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janderland/highlightjs-fql.git"
+  },
+  "homepage": "https://github.com/janderland/fql",
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "highlight.js": "^11.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "highlight.js": "^11.9.0",
+    "mocha": "^10.2.0",
+    "rollup": "^4.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+% Write a user record
+/users("alice", 42)=nil
+
+% Read with a typed variable
+/users(<int>)=<str>
+
+% Range with options
+/users(<int|str>)=<> [limit:100, reverse]
