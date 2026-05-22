@@ -28,6 +28,30 @@ const SYMBOLS = '`~!@#$%^&*()\\-=+[\\]{}\\\\|;:\'",.<>/?';
 const endAtSymbol = (keep) =>
   new RegExp('(?=[\\s' + SYMBOLS.replace(keep, '') + ']|$)');
 
+// Build a multi-capture numeric mode where scopes strictly alternate between
+// 'accent' and 'number'. `firstIsAccent` picks the starting phase.
+//
+// Example: NUMBER is built with firstIsAccent=true and the parts below.
+// For input `-42`:
+//   parts[0] /-?/   capture 1  accent   matches '-'
+//   parts[1] /\d+/  capture 2  number   matches '42'
+//   parts[2] /\.?/  capture 3  accent   matches ''
+//   parts[3] /\d*/  capture 4  number   matches ''
+//   parts[4] /e?/   capture 5  accent   matches ''
+//   parts[5] /\d*/  capture 6  number   matches ''
+const numericMode = (parts, firstIsAccent) => ({
+  begin: parts,
+  beginScope: Object.fromEntries(
+    parts.map((_, i) => [i + 1, (i % 2 === 0) === firstIsAccent ? 'accent' : 'number']),
+  ),
+});
+
+// Build a beginKeywords mode scoped 'keyword'. Used by KEYWORD/OPTNAME.
+const keywordMode = (words) => ({
+  scope: 'keyword',
+  beginKeywords: words.join(' '),
+});
+
 // Composed lists for specific modes.
 const TOP_KEYWORDS = [
   ...LITERALS, ...VERBS, ...TYPES, ...INT_TYPES, ...FLOAT_TYPES,
@@ -47,79 +71,25 @@ export default function(_hljs) {
     begin: /%.*\n?/,
   };
 
-  const NUMBER = {
-    begin: [
-      /-?/,
-      /\d+/,
-      /\.?/,
-      /\d*/,
-      /e?/,
-      /\d*/,
-      /(kb|mb|gb)?/,
-    ],
-    beginScope: {
-      1: 'accent',
-      2: 'number',
-      3: 'accent',
-      4: 'number',
-      5: 'accent',
-      6: 'number',
-      7: 'accent',
-    },
-  };
+  const NUMBER = numericMode(
+    [/-?/, /\d+/, /\.?/, /\d*/, /e?/, /\d*/],
+    true,
+  );
 
-  const BYTES = {
-    begin: [
-      /0/,
-      /x/,
-      /[A-Za-z0-9]*/,
-    ],
-    beginScope: {
-      1: 'number',
-      2: 'accent',
-      3: 'number',
-    },
-  };
+  const BYTES = numericMode(
+    [/0/, /x/, /[A-Za-z0-9]*/],
+    false,
+  );
 
-  const UUID = {
-    begin: [
-      /\w{8}/,
-      /-/,
-      /\w{4}/,
-      /-/,
-      /\w{4}/,
-      /-/,
-      /\w{4}/,
-      /-/,
-      /\w{12}/,
-    ],
-    beginScope: {
-      1: 'number',
-      2: 'accent',
-      3: 'number',
-      4: 'accent',
-      5: 'number',
-      6: 'accent',
-      7: 'number',
-      8: 'accent',
-      9: 'number',
-    },
-  };
+  const UUID = numericMode(
+    [/\w{8}/, /-/, /\w{4}/, /-/, /\w{4}/, /-/, /\w{4}/, /-/, /\w{12}/],
+    false,
+  );
 
-  const VSTAMP = {
-    begin: [
-      /#/,
-      /[A-Fa-f0-9]*/,
-      /:/,
-      /[A-Fa-f0-9]{4}/,
-    ],
-    beginScope: {
-      1: 'accent',
-      2: 'number',
-      3: 'accent',
-      4: 'number',
-    },
-  };
+  const VSTAMP = numericMode(
+    [/#/, /[A-Fa-f0-9]*/, /:/, /[A-Fa-f0-9]{4}/],
+    true,
+  );
 
   const STRING = {
     scope: 'string',
@@ -133,16 +103,10 @@ export default function(_hljs) {
     begin: /[\w\.\-]/,
   };
 
-  const KEYWORD = {
-    scope: 'keyword',
-    beginKeywords: TOP_KEYWORDS.join(' '),
-  };
+  const KEYWORD = keywordMode(TOP_KEYWORDS);
 
   // OPTNAME — recognizes a token as an option-keyword name.
-  const OPTNAME = {
-    scope: 'keyword',
-    beginKeywords: OPTIONS_KW.join(' '),
-  };
+  const OPTNAME = keywordMode(OPTIONS_KW);
 
   // OPTION — a single option, with or without `:value`. The single entry
   // point for option syntax everywhere — inside [...], at top level, in
