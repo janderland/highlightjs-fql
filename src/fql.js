@@ -5,6 +5,30 @@ Website: https://github.com/janderland/fql
 Category: database
 */
 
+// Keyword categories — single source of truth.
+const LITERALS    = ['true', 'false', 'nil', 'inf', '-inf', 'nan', '-nan'];
+const VERBS       = ['clear', 'remove'];
+const TYPES       = ['any', 'int', 'bool', 'num', 'bint', 'str', 'bytes', 'uuid', 'tup', 'vstamp'];
+const INT_TYPES   = ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'];
+const FLOAT_TYPES = ['f32', 'f64', 'f80'];
+const AGGREGATES  = ['append', 'sum', 'avg', 'min', 'max', 'count'];
+const OPTIONS_KW  = [
+  'be', 'bigendian', 'endian', 'raw', 'reverse', 'unsigned',
+  'width', 'sep', 'limit', 'mode', 'snapshot', 'strict',
+];
+const OPTION_VALUES  = ['want_all', 'iterator', 'exact', 'small', 'medium', 'large', 'serial'];
+
+// Options that take a `:value`. Drives BAREOPT (bare `keyword:value` outside [...]).
+const VALUED_OPTIONS = ['width', 'limit', 'mode', 'endian', 'sep'];
+
+// Composed lists for specific modes.
+const TOP_KEYWORDS = [
+  ...LITERALS, ...VERBS, ...TYPES, ...INT_TYPES, ...FLOAT_TYPES,
+  ...AGGREGATES, ...OPTIONS_KW, ...OPTION_VALUES,
+];
+const VARIABLE_KEYWORDS = [...LITERALS, ...TYPES, ...AGGREGATES];
+const BRACKET_KEYWORDS  = [...OPTIONS_KW, ...INT_TYPES, ...FLOAT_TYPES];
+
 export default function(_hljs) {
   const ESCAPE = {
     scope: 'escape',
@@ -104,20 +128,7 @@ export default function(_hljs) {
 
   const KEYWORD = {
     scope: 'keyword',
-    beginKeywords: [
-      'true', 'false', '-inf', 'inf', '-nan', 'nan',
-      'clear', 'remove', 'nil',
-      'any', 'int', 'bool', 'num', 'bint', 'str', 'bytes', 'uuid', 'tup', 'vstamp',
-      'append', 'sum', 'avg', 'min', 'max', 'count',
-      'sep', 'be',
-      'i8', 'i16', 'i32', 'i64',
-      'u8', 'u16', 'u32', 'u64',
-      'f32', 'f64', 'f80',
-      'bigendian', 'raw', 'width', 'unsigned', 'reverse',
-      'limit', 'mode', 'want_all', 'iterator', 'exact',
-      'small', 'medium', 'large', 'serial', 'snapshot', 'strict',
-      'rand', 'pick',
-    ].join(' '),
+    beginKeywords: TOP_KEYWORDS.join(' '),
   };
 
   const OPTIONS = {
@@ -126,15 +137,7 @@ export default function(_hljs) {
     end: /]/,
     keywords: {
       $$pattern: /[^,:"]+/,
-      keyword: [
-        'be',
-        'i8', 'i16', 'i32', 'i64',
-        'u8', 'u16', 'u32', 'u64',
-        'f32', 'f64', 'f80',
-        'bigendian', 'raw', 'endian',
-        'width', 'unsigned', 'reverse',
-        'limit', 'mode', 'snapshot', 'strict', 'pick', 'sep',
-      ],
+      keyword: BRACKET_KEYWORDS,
     },
     contains: [
       STRING,
@@ -149,6 +152,21 @@ export default function(_hljs) {
         },
       },
     ],
+  };
+
+  // `limit:5`, `mode:exact`, etc. — outside [...].
+  const BAREOPT = {
+    scope: 'accent',
+    begin: [
+      new RegExp('\\b(' + VALUED_OPTIONS.join('|') + ')\\b'),
+      /:/,
+      /[^\s,)\]"]+/,
+    ],
+    beginScope: {
+      1: 'keyword',
+      2: 'option',
+      3: 'number',
+    },
   };
 
   const INLINEOPT = {
@@ -177,10 +195,7 @@ export default function(_hljs) {
     endScope: 'variable',
     keywords: {
       $$pattern: /[^:|]+/,
-      keyword: [
-        'any', 'int', 'bool', 'num', 'bint', 'str', 'bytes', 'uuid', 'tup', 'vstamp', 'nil',
-        'append', 'sum', 'avg', 'min', 'max', 'count',
-      ],
+      keyword: VARIABLE_KEYWORDS,
     },
     contains: [
       VAR_NAME,
@@ -212,7 +227,6 @@ export default function(_hljs) {
       1: 'reference',
       2: 'params',
     },
-    contains: [TYPE_CAST],
   };
 
   const MAYBEMORE = {
@@ -241,7 +255,9 @@ export default function(_hljs) {
       'self',
       STRING,
       VARIABLE,
+      BAREOPT,
       REFERENCE,
+      TYPE_CAST,
       MAYBEMORE,
       KEYWORD,
       UUID,
@@ -260,7 +276,9 @@ export default function(_hljs) {
       TUPLE,
       STRING,
       VARIABLE,
+      BAREOPT,
       REFERENCE,
+      TYPE_CAST,
       KEYWORD,
       UUID,
       VSTAMP,
@@ -291,7 +309,9 @@ export default function(_hljs) {
       TUPLE,
       VALUE,
       VARIABLE,
+      BAREOPT,
       REFERENCE,
+      TYPE_CAST,
       MAYBEMORE,
       INLINEOPT,
       KEYWORD,
