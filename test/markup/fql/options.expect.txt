@@ -1,0 +1,10 @@
+<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">limit</span></span><span class="hljs-option">:</span><span class="hljs-number">5</span></span>
+<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">mode</span></span><span class="hljs-option">:</span><span class="hljs-number">exact</span></span>
+<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">width</span></span><span class="hljs-option">:</span><span class="hljs-number">32</span></span>
+<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">reverse</span></span></span>
+<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">unsigned</span></span></span>
+<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">width</span></span></span> <span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">unsigned</span></span></span>
+<span class="hljs-title">[<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">limit</span></span><span class="hljs-option">:</span><span class="hljs-number">5</span></span>]</span>
+<span class="hljs-title">[<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">reverse</span></span></span>]</span>
+<span class="hljs-title">[<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">mode</span></span><span class="hljs-option">:</span><span class="hljs-number">exact</span></span>, <span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">reverse</span></span></span>, <span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">width</span></span><span class="hljs-option">:</span><span class="hljs-number">32</span></span>]</span>
+<span class="hljs-title">[<span class="hljs-keyword">i32</span>, <span class="hljs-keyword">f64</span>]</span>

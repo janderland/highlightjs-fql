@@ -1,0 +1,7 @@
+<span class="hljs-variable">:</span><span class="hljs-params">ref</span>
+<span class="hljs-variable">:</span><span class="hljs-params">ref.path.deep</span>
+<span class="hljs-variable">:</span><span class="hljs-params">author</span>
+<span class="hljs-variable">:</span><span class="hljs-params">ref</span><span class="hljs-variable">!</span><span class="hljs-keyword">i32</span>
+<span class="hljs-variable">:</span><span class="hljs-params">ref</span><span class="hljs-variable">!</span><span class="hljs-keyword">str</span>
+<span class="hljs-variable">!</span><span class="hljs-keyword">i32</span>
+<span class="hljs-variable">!</span><span class="hljs-keyword">u64</span>

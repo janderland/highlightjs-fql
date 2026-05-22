@@ -1,0 +1,7 @@
+()
+(42)
+(42, "hello")
+(<int>, :ref, 0xdead, true)
+(nested, (deep, (inner)))
+(item1, ..., item3)
+(:author!i32)

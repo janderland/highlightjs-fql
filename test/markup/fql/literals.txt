@@ -1,0 +1,14 @@
+% comment line — exercises COMMENT
+"double quoted" % STRING
+"escapes \n \t \\ \"" % STRING + ESCAPE
+42 % NUMBER (integer)
+-42 % NUMBER (negative)
+3.14 % NUMBER (float)
+1e5 % NUMBER (exponent)
+0xdeadbeef % BYTES
+12345678-1234-1234-1234-123456789012 % UUID
+#abc:dead % VSTAMP
+true false nil inf -inf nan % KEYWORD (literals)
+clear remove % KEYWORD (verbs)
+int bool str bytes uuid tup vstamp i32 u64 f64 % KEYWORD (types)
+append sum avg min max count % KEYWORD (aggregates)

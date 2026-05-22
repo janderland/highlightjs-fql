@@ -1,0 +1,6 @@
+<span class="hljs-variable">&lt;</span><span class="hljs-keyword">int</span><span class="hljs-variable">&gt;</span>
+<span class="hljs-variable">&lt;</span><span class="hljs-keyword">str</span><span class="hljs-variable">&gt;</span>
+<span class="hljs-variable">&lt;</span><span class="hljs-params">typed</span><span class="hljs-variable">:</span><span class="hljs-keyword">int</span><span class="hljs-variable">&gt;</span>
+<span class="hljs-variable">&lt;</span><span class="hljs-params">typed</span><span class="hljs-variable">:</span><span class="hljs-keyword">int</span><span class="hljs-variable">|</span><span class="hljs-keyword">str</span><span class="hljs-variable">&gt;</span>
+<span class="hljs-variable">&lt;</span><span class="hljs-params">count</span><span class="hljs-variable">:</span><span class="hljs-keyword">append</span><span class="hljs-variable">&gt;</span>
+<span class="hljs-variable">&lt;</span><span class="hljs-params">typed</span><span class="hljs-variable">:</span><span class="hljs-keyword">int</span><span class="hljs-title">[<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">width</span></span><span class="hljs-option">:</span><span class="hljs-number">32</span></span>]</span><span class="hljs-variable">&gt;</span>

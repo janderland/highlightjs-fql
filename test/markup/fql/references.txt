@@ -1,0 +1,7 @@
+:ref
+:ref.path.deep
+:author
+:ref!i32
+:ref!str
+!i32
+!u64

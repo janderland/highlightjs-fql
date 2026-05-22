@@ -1,0 +1,10 @@
+limit:5
+mode:exact
+width:32
+reverse
+unsigned
+width unsigned
+[limit:5]
+[reverse]
+[mode:exact, reverse, width:32]
+[i32, f64]

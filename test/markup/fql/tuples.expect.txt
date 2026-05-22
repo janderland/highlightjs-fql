@@ -1,0 +1,7 @@
+<span class="hljs-built_in">()</span>
+<span class="hljs-built_in">(<span class="hljs-number">42</span>)</span>
+<span class="hljs-built_in">(<span class="hljs-number">42</span>, <span class="hljs-string">&quot;hello&quot;</span>)</span>
+<span class="hljs-built_in">(<span class="hljs-variable">&lt;</span><span class="hljs-keyword">int</span><span class="hljs-variable">&gt;</span>, <span class="hljs-variable">:</span><span class="hljs-params">ref</span>, <span class="hljs-number">0</span><span class="hljs-title">x</span><span class="hljs-number">dead</span>, <span class="hljs-keyword"><span class="hljs-keyword">true</span></span>)</span>
+<span class="hljs-built_in">(nested, <span class="hljs-built_in">(deep, <span class="hljs-built_in">(inner)</span>)</span>)</span>
+<span class="hljs-built_in">(item<span class="hljs-number">1</span>, <span class="hljs-variable">...</span>, item<span class="hljs-number">3</span>)</span>
+<span class="hljs-built_in">(<span class="hljs-variable">:</span><span class="hljs-params">author</span><span class="hljs-variable">!</span><span class="hljs-keyword">i32</span>)</span>

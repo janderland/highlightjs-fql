@@ -1,0 +1,13 @@
+<span class="hljs-built_in">=<span class="hljs-number">42</span></span>
+<span class="hljs-built_in">=<span class="hljs-string">&quot;string&quot;</span></span>
+<span class="hljs-built_in">=<span class="hljs-keyword"><span class="hljs-keyword">nil</span></span></span>
+<span class="hljs-built_in">=<span class="hljs-keyword"><span class="hljs-keyword">clear</span></span></span>
+<span class="hljs-built_in">=<span class="hljs-keyword"><span class="hljs-keyword">remove</span></span></span>
+<span class="hljs-built_in">=<span class="hljs-variable">&lt;</span><span class="hljs-keyword">int</span><span class="hljs-variable">&gt;</span></span>
+<span class="hljs-built_in">=<span class="hljs-built_in">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)</span></span>
+<span class="hljs-built_in">=<span class="hljs-title">[<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">reverse</span></span></span>]</span></span>
+<span class="hljs-built_in">=<span class="hljs-variable">:</span><span class="hljs-params">ref</span></span>
+<span class="hljs-built_in">=<span class="hljs-variable">:</span><span class="hljs-params">author</span><span class="hljs-variable">!</span><span class="hljs-keyword">i32</span></span>
+<span class="hljs-built_in">=<span class="hljs-title">#</span><span class="hljs-number">abc</span><span class="hljs-title">:</span><span class="hljs-number">dead</span></span>
+<span class="hljs-built_in">=<span class="hljs-number">0</span><span class="hljs-title">x</span><span class="hljs-number">deadbeef</span></span>
+<span class="hljs-built_in">=<span class="hljs-title">-</span><span class="hljs-number">3</span><span class="hljs-title">.</span><span class="hljs-number">14</span></span>

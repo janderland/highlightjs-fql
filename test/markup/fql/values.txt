@@ -1,0 +1,13 @@
+=42
+="string"
+=nil
+=clear
+=remove
+=<int>
+=(1, 2)
+=[reverse]
+=:ref
+=:author!i32
+=#abc:dead
+=0xdeadbeef
+=-3.14

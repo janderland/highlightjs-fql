@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "test": "mocha"
+    "test": "node test/run.js"
   },
   "keywords": [
     "fql",
@@ -36,7 +36,6 @@
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
     "highlight.js": "^11.9.0",
-    "mocha": "^10.2.0",
     "rollup": "^4.0.0"
   }
 }
