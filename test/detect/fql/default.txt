@@ -1,2 +1,0 @@
-/users("alice", 42)=nil
-/users(<int>)=<str>

@@ -31,7 +31,7 @@ describe('highlightjs-fql', () => {
   });
 
   it('highlights options brackets', () => {
-    const { value } = hljs.highlight('/users(<int>)=nil [limit:100, reverse]', { language: 'fql' });
+    const { value } = hljs.highlight('[limit:100, reverse]\n/users(<int>)=nil', { language: 'fql' });
     assert.match(value, /hljs-title/);
   });
 });

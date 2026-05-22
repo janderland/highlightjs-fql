@@ -11,18 +11,6 @@ npm install highlightjs-fql
 
 ## Usage
 
-### Browser (CDN / static site)
-
-Load `highlight.js` first, then the bundled FQL plugin — it self-registers
-against the global `hljs`:
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/default.min.css">
-<script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/core.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/highlightjs-fql/dist/fql.min.js"></script>
-<script>hljs.highlightAll();</script>
-```
-
 ### Node / bundler (ESM)
 
 ```js
