@@ -3,5 +3,7 @@
 <span class="hljs-variable">:</span><span class="hljs-params">author</span>
 <span class="hljs-variable">:</span><span class="hljs-params">ref</span><span class="hljs-variable">!</span><span class="hljs-keyword">i32</span>
 <span class="hljs-variable">:</span><span class="hljs-params">ref</span><span class="hljs-variable">!</span><span class="hljs-keyword">str</span>
+<span class="hljs-variable">:</span><span class="hljs-params">ref</span><span class="hljs-variable">!</span><span class="hljs-keyword">int</span><span class="hljs-title">[<span class="hljs-keyword">u8</span>]</span>
+<span class="hljs-variable">:</span><span class="hljs-params">ref</span><span class="hljs-variable">!</span><span class="hljs-keyword">num</span><span class="hljs-title">[<span class="hljs-keyword">f32</span>,<span class="hljs-title"><span class="hljs-keyword"><span class="hljs-keyword">be</span></span></span>]</span>
 <span class="hljs-variable">!</span><span class="hljs-keyword">i32</span>
 <span class="hljs-variable">!</span><span class="hljs-keyword">u64</span>

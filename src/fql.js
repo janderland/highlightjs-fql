@@ -26,7 +26,7 @@ const OPTION_VALUES  = ['want_all', 'iterator', 'exact', 'small', 'medium', 'lar
 const SYMBOLS = '`~!@#$%^&*()\\-=+[\\]{}\\\\|;:\'",.<>/?';
 
 // Build a lookahead-end regex: triggers on whitespace, EOL, or any keyboard
-// symbol not matched by `keep`. Used by OPTION/DIRECTORY/VALUE.
+// symbol not matched by `keep`. Used by OPTION/DIRECTORY/VALUE/TYPE/TYPE_CAST.
 const endAtSymbol = (keep) =>
   new RegExp('(?=[\\s' + SYMBOLS.replace(keep, '') + ']|$)');
 
@@ -159,18 +159,25 @@ export default function(_hljs) {
     },
   };
 
+  // TYPE — a type-name keyword optionally followed by [options]. Used inside
+  // VARIABLE (per `|`-separated type) so options bind to the immediately
+  // preceding type rather than the variable as a whole. beginKeywords
+  // auto-scopes the keyword itself, so no outer `scope:` is needed (and
+  // adding one would double-wrap the keyword span).
+  const TYPE = {
+    beginKeywords: VARIABLE_KEYWORDS.join(' '),
+    end: endAtSymbol(/\[/g),
+    contains: [OPTIONS],
+  };
+
   const VARIABLE = {
     begin: /</,
     beginScope: 'variable',
     end: />/,
     endScope: 'variable',
-    keywords: {
-      $$pattern: /[^:|]+/,
-      keyword: VARIABLE_KEYWORDS,
-    },
     contains: [
       VAR_NAME,
-      OPTIONS,
+      TYPE,
       {
         scope: 'variable',
         begin: /\|/,
@@ -187,6 +194,8 @@ export default function(_hljs) {
       1: 'reference',
       2: 'keyword',
     },
+    end: endAtSymbol(/\[/g),
+    contains: [OPTIONS],
   };
 
   const REFERENCE = {

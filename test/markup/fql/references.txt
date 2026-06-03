@@ -3,5 +3,7 @@
 :author
 :ref!i32
 :ref!str
+:ref!int[u8]
+:ref!num[f32,be]
 !i32
 !u64
