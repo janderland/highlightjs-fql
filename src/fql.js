@@ -8,7 +8,7 @@ Category: database
 // Keyword categories
 const LITERALS    = ['true', 'false', 'nil', 'inf', '-inf', 'nan', '-nan'];
 const VERBS       = ['clear', 'remove'];
-const TYPES       = ['any', 'int', 'bool', 'num', 'bint', 'str', 'bytes', 'uuid', 'tup', 'vstamp'];
+const TYPES       = ['any', 'int', 'bool', 'num', 'str', 'bytes', 'uuid', 'tup', 'vstamp'];
 const TYPES_INT   = ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'];
 const TYPES_FLOAT = ['f32', 'f64', 'f80'];
 const AGGREGATES  = ['append', 'sum', 'avg', 'min', 'max', 'count'];
@@ -208,10 +208,13 @@ export default function(_hljs) {
   const DIRECTORY = {
     scope: 'directory',
     begin: /[/@]/,
-    end: endAtSymbol(/[/@<>.\-"]/g),
+    end: endAtSymbol(/[/@.\-"]/g),
     contains: [
       STRING,
-      VARIABLE,
+      // Only the bare '<>' placeholder is a valid directory segment; any
+      // other '<...>' terminates DIRECTORY and is parsed as a top-level
+      // VARIABLE.
+      { scope: 'variable', begin: /<>/ },
       MAYBEMORE,
       DSTRING,
     ],
